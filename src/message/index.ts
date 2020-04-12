@@ -1,12 +1,29 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
 
-// Home page route.
-// Supressing type errors due to lack of type availability
-// @ts-ignore
-router.post('/', function (req, res) {
-    res.send('Post Endpoint');
+// Main message send route.
+router.post('/', function (req: express.Request, res: express.Response) {
+    const body = req.body;
+
+    const id = body.id;
+
+    if (!id) {
+        console.log('id not found');
+        res.status(400).send('ID not found');
+        return;
+    }
+    const message = body.message;
+
+    if (!message) {
+        console.log('message not found');
+        res.status(400).send('Message not found');
+        return;
+    }
+
+    console.log(`message sent was ${message}`);
+
+    res.send('Valid Request');
 });
 
 module.exports = router;
