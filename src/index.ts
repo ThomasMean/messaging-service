@@ -1,8 +1,10 @@
 import express from 'express';
 const message = require('./message');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 8080; // default port to listen
+
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
