@@ -21,10 +21,22 @@ router.post('/', async (req: express.Request, res: express.Response) => {
         return;
     }
 
-    const data = getData(message);
-    if (!data.user || !data.token) {
+    let token: String;
+
+    const lookupData = { id };
+
+    await axios.post(process.env.LOOKUP_SERVICE_URL, lookupData).then(response => {
+        token = response.data.key;
+    }).catch(err => {
+        const error = err.response.data;
+        console.error(error);
+    });
+
+    const data = getData(token, message);
+    if (!data.user || !token) {
         res.status(400).send('Failed to send');
-        console.error('Failed to get token or user');
+        console.error('Failed to get user or token');
+        return;
     }
 
     await axios.post('https://api.pushover.net/1/messages.json', data).then(() => {

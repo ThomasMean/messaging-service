@@ -1,6 +1,6 @@
-const getData = (message: String) => {
+const getData = (token: String, message: String) => {
     return {
-        token: process.env.PUSHOVER_TOKEN,
+        token: token,
         user: process.env.PUSHOVER_USER,
         message
     };
